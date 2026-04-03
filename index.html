@@ -15,7 +15,9 @@ body {
 }
 
 h1 {
-  text-shadow: 0 0 10px pink;
+  font-size: 22px;
+  margin-top: 20px;
+  text-shadow: 0 0 8px pink;
 }
 
 /* 🌌 Stars */
@@ -54,7 +56,7 @@ h1 {
   to { transform: translateY(-800px); opacity: 0; }
 }
 
-/* 💖 Tap hearts */
+/* 💖 Tap effects */
 .tapHeart {
   position: absolute;
   font-size: 20px;
@@ -69,49 +71,63 @@ h1 {
 
 /* 📸 Photo */
 #photo {
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
   border-radius: 20px;
-  margin-top: 20px;
+  margin-top: 15px;
   display: none;
-  box-shadow: 0 0 25px pink;
+  box-shadow: 0 0 20px pink;
   transition: opacity 1s;
+}
+
+/* 📸 Photo click animation */
+.photo-animate {
+  animation: pop 0.4s ease;
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 /* 💬 Chat */
 #chat {
   display: none;
   position: fixed;
-  bottom: 20px;
+  bottom: 10px;
   width: 100%;
 }
 .msg {
-  background: #222;
-  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(5px);
+  padding: 8px;
   margin: 5px auto;
-  border-radius: 10px;
-  width: 70%;
+  border-radius: 12px;
+  width: 80%;
+  font-size: 14px;
 }
 
 /* 💌 Letter */
 #letter {
   display: none;
-  margin-top: 20px;
-  padding: 20px;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 /* 🤗 Hug */
 #hugBtn {
   display: none;
-  padding: 12px 20px;
+  padding: 10px 16px;
   border-radius: 20px;
   border: none;
   background: pink;
   cursor: pointer;
 }
 
-/* 🎮 Game button */
+/* 🎮 Game */
 .gameBtn {
   position: absolute;
   padding: 10px;
@@ -124,10 +140,10 @@ h1 {
 /* 🌌 Name */
 #name {
   position: absolute;
-  top: 15%;
+  top: 12%;
   width: 100%;
-  font-size: 28px;
-  letter-spacing: 3px;
+  font-size: 24px;
+  letter-spacing: 2px;
   color: rgba(255,255,255,0.8);
   text-shadow: 0 0 10px pink, 0 0 20px pink;
   opacity: 0;
@@ -144,13 +160,13 @@ h1 {
 <div id="name">Aditi 🧸🤍</div>
 
 <img id="photo">
-<div id="chat"></div>
 <div id="letter"></div>
 <button id="hugBtn" onclick="hug()">🤗 Hug Me</button>
 
-<!-- 🎵 MUSIC -->
+<div id="chat"></div>
+
 <audio id="music" loop>
-  <source src="1775250446366002.m4a">
+  <source src="music.mp3">
 </audio>
 
 <script>
@@ -186,12 +202,25 @@ function startHearts() {
   }, 300);
 }
 
-/* 💖 Tap hearts */
+/* ✨ Sparkles */
+setInterval(() => {
+  let sparkle = document.createElement("div");
+  sparkle.innerHTML = "✨";
+  sparkle.style.position = "absolute";
+  sparkle.style.left = Math.random() * innerWidth + "px";
+  sparkle.style.top = Math.random() * innerHeight + "px";
+  sparkle.style.fontSize = "14px";
+  document.body.appendChild(sparkle);
+  setTimeout(() => sparkle.remove(), 2000);
+}, 500);
+
+/* 💖 Tap effects */
 document.addEventListener("click", (e) => {
+  let emojis = ["💖","✨","🧸","💫"];
   for (let i = 0; i < 6; i++) {
     let h = document.createElement("div");
     h.className = "tapHeart";
-    h.innerHTML = "💖";
+    h.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
     h.style.left = e.clientX + "px";
     h.style.top = e.clientY + "px";
     document.body.appendChild(h);
@@ -199,7 +228,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* 📸 Photos (FIXED) */
+/* 📸 Photos */
 const photos = [
   "IMG_3757.jpeg",
   "405F6892-62A1-4944-9219-DB8CEBCB8724.jpeg",
@@ -212,7 +241,6 @@ let photoIndex = 0;
 function showPhoto() {
   let img = document.getElementById("photo");
   img.style.opacity = 0;
-
   setTimeout(() => {
     img.style.display = "block";
     img.src = photos[photoIndex];
@@ -220,6 +248,37 @@ function showPhoto() {
     photoIndex = (photoIndex + 1) % photos.length;
   }, 500);
 }
+
+/* 💖 PHOTO REACTION */
+document.getElementById("photo").addEventListener("click", () => {
+  let img = document.getElementById("photo");
+
+  img.classList.add("photo-animate");
+  setTimeout(() => img.classList.remove("photo-animate"), 400);
+
+  for (let i = 0; i < 10; i++) {
+    let h = document.createElement("div");
+    h.innerHTML = "💖";
+    h.style.position = "absolute";
+    h.style.left = (img.offsetLeft + img.width/2) + "px";
+    h.style.top = (img.offsetTop + img.height/2) + "px";
+    h.style.transition = "1s";
+    document.body.appendChild(h);
+
+    setTimeout(() => {
+      h.style.transform = `translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
+      h.style.opacity = 0;
+    }, 10);
+
+    setTimeout(() => h.remove(), 1000);
+  }
+
+  img.style.boxShadow = "0 0 40px hotpink";
+  setTimeout(() => img.style.boxShadow = "0 0 20px pink", 400);
+
+  document.getElementById("text").innerHTML =
+    "Aditi looks so cute here 🧸💖";
+});
 
 /* 💬 Chat */
 const messages = [
@@ -266,29 +325,37 @@ function hug() {
 
 /* 🎮 Game */
 function startGame() {
-  let btn = document.createElement("button");
-  btn.innerHTML = "😄";
-  btn.className = "gameBtn";
+  for (let i = 0; i < 5; i++) {
+    let btn = document.createElement("button");
+    btn.innerHTML = "😄";
+    btn.className = "gameBtn";
 
-  btn.onmouseover = () => {
     btn.style.top = Math.random() * innerHeight + "px";
     btn.style.left = Math.random() * innerWidth + "px";
-  };
 
-  btn.onclick = () => {
-    document.getElementById("text").innerHTML =
-      "That’s my Aditi smiling again 🧸💖";
-    btn.remove();
-  };
+    btn.onmouseover = () => {
+      btn.style.top = Math.random() * innerHeight + "px";
+      btn.style.left = Math.random() * innerWidth + "px";
+    };
 
-  document.body.appendChild(btn);
+    btn.onclick = () => {
+      document.getElementById("text").innerHTML =
+        "There’s that smile I love 🧸💖";
+      btn.remove();
+    };
+
+    document.body.appendChild(btn);
+  }
 }
 
 /* ▶️ START */
 function start() {
   document.querySelector("button").remove();
 
-  document.getElementById("music").play();
+ <audio id="music" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+  <source src="1775250446366002.m4a" type="audio/mp4">
+</audio>
 
   startHearts();
   showChat();
@@ -299,8 +366,8 @@ function start() {
     document.getElementById("name").style.opacity = 1;
   }, 4000);
 
-  setTimeout(showLetter, 7000);
-  setTimeout(startGame, 9000);
+  setTimeout(showLetter, 6000);
+  setTimeout(startGame, 8000);
 }
 
 </script>
