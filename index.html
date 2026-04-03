@@ -1,1 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For My Pookie Bear 🧸🤍</title>
 
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: radial-gradient(circle, #0f0f1a, #000);
+  color: white;
+  font-family: Arial;
+  text-align: center;
+}
+
+/* 🌌 Stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  animation: twinkle 2s infinite;
+}
+@keyframes twinkle {
+  0%,100% {opacity: 0.2;}
+  50% {opacity: 1;}
+}
+
+/* 🌠 Shooting stars */
+.shoot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  animation: shoot 2s linear;
+}
+@keyframes shoot {
+  to { transform: translate(-600px, 600px); }
+}
+
+/* 💕 Floating hearts */
+.heart {
+  position: absolute;
+  bottom: -50px;
+  font-size: 20px;
+  animation: float 6s linear;
+}
+@keyframes float {
+  to { transform: translateY(-800px); opacity: 0; }
+}
+
+/* 💖 Tap explosion hearts */
+.tapHeart {
+  position: absolute;
+  font-size: 20px;
+  animation: explode 1s ease-out forwards;
+}
+@keyframes explode {
+  to {
+    transform: translateY(-100px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* 📸 Photo */
+#photo {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-top: 20px;
+  display: none;
+  box-shadow: 0 0 25px pink;
+  transition: opacity 1s;
+}
+
+/* 💬 Chat */
+#chat {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+}
+.msg {
+  background: #222;
+  padding: 10px;
+  margin: 5px auto;
+  border-radius: 10px;
+  width: 70%;
+}
+
+/* 💌 Letter */
+#letter {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+/* 🤗 Hug */
+#hugBtn {
+  display: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  border: none;
+  background: pink;
+}
+
+/* 🌌 Name in sky */
+#name {
+  position: absolute;
+  top: 15%;
+  width: 100%;
+  font-size: 28px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.8);
+  text-shadow: 0 0 10px pink, 0 0 20px pink;
+  opacity: 0;
+  transition: 2s;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="text">Tap to enter Pookie Bear Universe 🧸</h1>
+<button onclick="start()">Enter 🤍</button>
+
+<div id="name">POOKIE BEAR ✨</div>
+
+<img id="photo">
+<div id="chat"></div>
+<div id="letter"></div>
+<button id="hugBtn" onclick="hug()">🤗 Hug Me</button>
+
+<audio id="music" loop>
+  <source src="music.mp3">
+</audio>
+
+<script>
+
+/* 🌌 Stars */
+for (let i = 0; i < 120; i++) {
+  let s = document.createElement("div");
+  s.className = "star";
+  s.style.top = Math.random() * innerHeight + "px";
+  s.style.left = Math.random() * innerWidth + "px";
+  document.body.appendChild(s);
+}
+
+/* 🌠 Shooting stars */
+setInterval(() => {
+  let s = document.createElement("div");
+  s.className = "shoot";
+  s.style.top = Math.random() * 200 + "px";
+  s.style.left = innerWidth + "px";
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 2000);
+}, 3000);
+
+/* 💕 Floating hearts */
+function startHearts() {
+  setInterval(() => {
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "💖";
+    h.style.left = Math.random() * innerWidth + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }, 300);
+}
+
+/* 💖 Tap explosion */
+document.addEventListener("click", (e) => {
+  for (let i = 0; i < 6; i++) {
+    let h = document.createElement("div");
+    h.className = "tapHeart";
+    h.innerHTML = "💖";
+    h.style.left = e.clientX + "px";
+    h.style.top = e.clientY + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 1000);
+  }
+});
+
+/* 📸 Photos */
+const photos = ["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg"];
+let photoIndex = 0;
+
+function showPhoto() {
+  let img = document.getElementById("photo");
+  img.style.opacity = 0;
+
+  setTimeout(() => {
+    img.style.display = "block";
+    img.src = photos[photoIndex];
+    img.style.opacity = 1;
+    photoIndex = (photoIndex + 1) % photos.length;
+  }, 500);
+}
+
+/* 💬 Chat */
+const messages = [
+  "Hey pookie… 🧸🤍",
+  "I know you're not okay…",
+  "And I wish I could hug you right now…",
+  "So I made this for you 🤍"
+];
+
+function showChat() {
+  let chat = document.getElementById("chat");
+  chat.style.display = "block";
+
+  let i = 0;
+  let interval = setInterval(() => {
+    if (i < messages.length) {
+      let div = document.createElement("div");
+      div.className = "msg";
+      div.innerHTML = messages[i];
+      chat.appendChild(div);
+      i++;
+    } else clearInterval(interval);
+  }, 1500);
+}
+
+/* 💌 Letter */
+function showLetter() {
+  let l = document.getElementById("letter");
+  l.style.display = "block";
+  l.innerHTML = `
+  You don’t have to be strong all the time… 🤍<br><br>
+  I’m right here, always.<br><br>
+  — Yours 🧸❤️
+  `;
+  document.getElementById("hugBtn").style.display = "inline-block";
+}
+
+/* 🤗 Hug */
+function hug() {
+  document.getElementById("text").innerHTML =
+    "Come here 🥺🤍 *virtual hug* 🤗💖";
+}
+
+/* 🎮 Game */
+function startGame() {
+  let btn = document.createElement("button");
+  btn.innerHTML = "😄";
+  btn.className = "gameBtn";
+
+  btn.onmouseover = () => {
+    btn.style.top = Math.random() * innerHeight + "px";
+    btn.style.left = Math.random() * innerWidth + "px";
+  };
+
+  btn.onclick = () => {
+    document.getElementById("text").innerHTML =
+      "That’s my pookie smiling again 🧸💖";
+    btn.remove();
+  };
+
+  document.body.appendChild(btn);
+}
+
+/* ▶️ START */
+function start() {
+  document.querySelector("button").remove();
+
+  document.getElementById("music").play();
+
+  startHearts();
+  showChat();
+
+  setInterval(showPhoto, 3000);
+
+  setTimeout(() => {
+    document.getElementById("name").style.opacity = 1;
+  }, 4000);
+
+  setTimeout(showLetter, 7000);
+  setTimeout(startGame, 9000);
+}
+
+</script>
+
+</body>
+</html>
