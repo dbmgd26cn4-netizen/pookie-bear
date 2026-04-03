@@ -81,7 +81,7 @@ h1 {
   transition: opacity 1s;
 }
 
-/* 📸 Photo click animation */
+/* 📸 Photo animation */
 .photo-animate {
   animation: pop 0.4s ease;
 }
@@ -165,6 +165,7 @@ h1 {
 
 <div id="chat"></div>
 
+<!-- 🎵 MUSIC -->
 <audio id="music" loop preload="auto">
   <source src="music.mp3" type="audio/mpeg">
   <source src="1775250446366002.m4a" type="audio/mp4">
@@ -191,7 +192,7 @@ setInterval(() => {
   setTimeout(() => s.remove(), 2000);
 }, 3000);
 
-/* 💕 Floating hearts */
+/* 💕 Hearts */
 function startHearts() {
   setInterval(() => {
     let h = document.createElement("div");
@@ -205,17 +206,16 @@ function startHearts() {
 
 /* ✨ Sparkles */
 setInterval(() => {
-  let sparkle = document.createElement("div");
-  sparkle.innerHTML = "✨";
-  sparkle.style.position = "absolute";
-  sparkle.style.left = Math.random() * innerWidth + "px";
-  sparkle.style.top = Math.random() * innerHeight + "px";
-  sparkle.style.fontSize = "14px";
-  document.body.appendChild(sparkle);
-  setTimeout(() => sparkle.remove(), 2000);
+  let s = document.createElement("div");
+  s.innerHTML = "✨";
+  s.style.position = "absolute";
+  s.style.left = Math.random() * innerWidth + "px";
+  s.style.top = Math.random() * innerHeight + "px";
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 2000);
 }, 500);
 
-/* 💖 Tap effects */
+/* 💖 Tap */
 document.addEventListener("click", (e) => {
   let emojis = ["💖","✨","🧸","💫"];
   for (let i = 0; i < 6; i++) {
@@ -250,7 +250,7 @@ function showPhoto() {
   }, 500);
 }
 
-/* 💖 PHOTO REACTION */
+/* 💖 Photo Reaction */
 document.getElementById("photo").addEventListener("click", () => {
   let img = document.getElementById("photo");
 
@@ -284,10 +284,9 @@ document.getElementById("photo").addEventListener("click", () => {
 /* 💬 Chat */
 const messages = [
   "Hey Aditi… 🧸🤍",
-  "I know I haven’t been there properly…",
-  "And I’m really sorry for that…",
-  "It was never because you don’t matter…",
-  "You matter a lot to me 🤍"
+  "I’m really sorry…",
+  "I should’ve been there more…",
+  "But you matter a lot to me 🤍"
 ];
 
 function showChat() {
@@ -353,10 +352,9 @@ function startGame() {
 function start() {
   document.querySelector("button").remove();
 
- <audio id="music" loop preload="auto">
-  <source src="music.mp3" type="audio/mpeg">
-  <source src="1775250446366002.m4a" type="audio/mp4">
-</audio>
+  let music = document.getElementById("music");
+  music.volume = 0.3;
+  music.play().catch(()=>{});
 
   startHearts();
   showChat();
