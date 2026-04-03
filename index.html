@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>For My Pookie Bear 🧸🤍</title>
+<title>For Aditi 🧸🤍</title>
 
 <style>
 body {
@@ -12,6 +12,10 @@ body {
   color: white;
   font-family: Arial;
   text-align: center;
+}
+
+h1 {
+  text-shadow: 0 0 10px pink;
 }
 
 /* 🌌 Stars */
@@ -50,7 +54,7 @@ body {
   to { transform: translateY(-800px); opacity: 0; }
 }
 
-/* 💖 Tap explosion hearts */
+/* 💖 Tap hearts */
 .tapHeart {
   position: absolute;
   font-size: 20px;
@@ -104,9 +108,20 @@ body {
   border-radius: 20px;
   border: none;
   background: pink;
+  cursor: pointer;
 }
 
-/* 🌌 Name in sky */
+/* 🎮 Game button */
+.gameBtn {
+  position: absolute;
+  padding: 10px;
+  border-radius: 50%;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* 🌌 Name */
 #name {
   position: absolute;
   top: 15%;
@@ -123,7 +138,7 @@ body {
 
 <body>
 
-<h1 id="text">Tap to enter Pookie Bear Universe 🧸</h1>
+<h1 id="text">Tap to enter Aditi’s Universe 🧸</h1>
 <button onclick="start()">Enter 🤍</button>
 
 <div id="name">Aditi 🧸🤍</div>
@@ -133,8 +148,9 @@ body {
 <div id="letter"></div>
 <button id="hugBtn" onclick="hug()">🤗 Hug Me</button>
 
+<!-- 🎵 MUSIC -->
 <audio id="music" loop>
-  <source src="1775250446366002.m4a">
+  <source src="music.mp3">
 </audio>
 
 <script>
@@ -170,7 +186,7 @@ function startHearts() {
   }, 300);
 }
 
-/* 💖 Tap explosion */
+/* 💖 Tap hearts */
 document.addEventListener("click", (e) => {
   for (let i = 0; i < 6; i++) {
     let h = document.createElement("div");
@@ -183,8 +199,14 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* 📸 Photos */
-const photos = [" IMG_3757.jpeg","405F6892-62A1-4944-9219-DB8CEBCB8724.jpeg","26F2BFCD-F847-4B58-9819-9227116A9932.jpeg","22D15150-F119-4DA2-98D5-A544132EC335.jpeg"];
+/* 📸 Photos (FIXED) */
+const photos = [
+  "IMG_3757.jpeg",
+  "405F6892-62A1-4944-9219-DB8CEBCB8724.jpeg",
+  "26F2BFCD-F847-4B58-9819-9227116A9932.jpeg",
+  "22D15150-F119-4DA2-98D5-A544132EC335.jpeg"
+];
+
 let photoIndex = 0;
 
 function showPhoto() {
@@ -204,7 +226,8 @@ const messages = [
   "Hey Aditi… 🧸🤍",
   "I know I haven’t been there properly…",
   "And I’m really sorry for that…",
-  "But you matter to me a lot 🤍"
+  "It was never because you don’t matter…",
+  "You matter a lot to me 🤍"
 ];
 
 function showChat() {
@@ -254,7 +277,7 @@ function startGame() {
 
   btn.onclick = () => {
     document.getElementById("text").innerHTML =
-      "That’s my pookie smiling again 🧸💖";
+      "That’s my Aditi smiling again 🧸💖";
     btn.remove();
   };
 
@@ -281,6 +304,5 @@ function start() {
 }
 
 </script>
-
 </body>
 </html>
