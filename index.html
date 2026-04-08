@@ -1,293 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For Aditi 🧸🤍</title>
+<title>For You ❤️</title>
 
 <style>
 body {
   margin: 0;
   overflow: hidden;
-  background: radial-gradient(circle, #0f0f1a, #000);
+  background: black;
+  font-family: Arial, sans-serif;
+}
+
+canvas {
+  display: block;
+}
+
+/* 💬 Text Styling */
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: white;
-  font-family: Arial;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-h1 {
-  font-size: 28px;
-  text-shadow: 0 0 12px pink;
-  transition: 0.3s;
-}
-
-/* 💓 Heartbeat */
-.heartbeat {
-  animation: beat 0.6s infinite;
-}
-@keyframes beat {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-/* 🌌 Stars */
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  animation: twinkle 2s infinite;
-}
-@keyframes twinkle {
-  0%,100% {opacity: 0.2;}
-  50% {opacity: 1;}
-}
-
-/* 💕 Hearts */
-.heart {
-  position: absolute;
-  bottom: -50px;
-  font-size: 20px;
-  animation: float 6s linear;
-}
-@keyframes float {
-  to { transform: translateY(-800px); opacity: 0; }
-}
-
-/* 📸 Photo */
-#photo {
-  width: 240px;
-  height: 240px;
-  border-radius: 20px;
-  margin: 20px;
-  display: none;
-  box-shadow: 0 0 20px pink;
-  transition: 0.3s;
-}
-
-/* 💬 Chat */
-#chat {
-  display: none;
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-}
-.msg {
-  background: rgba(255,255,255,0.1);
-  padding: 10px;
-  margin: 5px auto;
-  border-radius: 12px;
-  width: 85%;
-  font-size: 16px;
-}
-
-/* 💌 Letter */
-#letter {
-  display: none;
-  font-size: 18px;
-  max-width: 80%;
+  font-size: 22px;
+  font-weight: 500;
+  text-align: center;
   line-height: 1.6;
+  max-width: 90%;
+  opacity: 0;
+  animation: fadeIn 3s ease-in forwards;
 }
 
-/* 🤗 Button */
-#hugBtn {
-  display: none;
-  padding: 12px 18px;
-  border-radius: 20px;
-  border: none;
-  background: pink;
-  cursor: pointer;
-}
-
-/* 🎮 Game */
-.gameBtn {
-  position: absolute;
-  padding: 10px;
-  border-radius: 50%;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
+@keyframes fadeIn {
+  to { opacity: 1; }
 }
 </style>
 </head>
 
 <body>
 
-<h1 id="text">Tap to enter Aditi’s Universe 🧸</h1>
-<button onclick="start()">Enter 🤍</button>
+<!-- 💬 Apology Message -->
+<div class="text">
+  I'm really sorry… <br><br>
+  I never meant to hurt you. <br>
+  But if I did, please tell me what I can do to make it right. <br><br>
+  I really don’t want to lose you… <br>
+  you mean a lot to me 🥺
+</div>
 
-<img id="photo">
-<div id="letter"></div>
-<button id="hugBtn" onclick="hug()">🤗 Hug Me</button>
+<canvas id="canvas"></canvas>
 
-<div id="chat"></div>
-
-<audio id="music" loop preload="auto">
+<!-- 🎵 Background Music -->
+<audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
-  <source src="1775250446366002.m4a" type="audio/mp4">
 </audio>
 
 <script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-/* 🌌 Stars */
-for (let i = 0; i < 120; i++) {
-  let s = document.createElement("div");
-  s.className = "star";
-  s.style.top = Math.random() * innerHeight + "px";
-  s.style.left = Math.random() * innerWidth + "px";
-  document.body.appendChild(s);
+// 🎵 Play music on first tap (mobile fix)
+document.addEventListener("click", () => {
+  document.getElementById("bgMusic").play();
+}, { once: true });
+
+// Resize canvas
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+let hearts = [];
+
+// Create heart
+function createHeart() {
+  return {
+    x: Math.random() * canvas.width,
+    y: canvas.height + 20,
+    size: Math.random() * 20 + 10,
+    speed: Math.random() * 2 + 1,
+    opacity: Math.random()
+  };
 }
 
-/* 💕 Hearts */
-function startHearts() {
-  setInterval(() => {
-    let h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = "💖";
-    h.style.left = Math.random() * innerWidth + "px";
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 6000);
-  }, 300);
+// Initial hearts
+for (let i = 0; i < 100; i++) {
+  hearts.push(createHeart());
 }
 
-/* ✨ Floating background */
-setInterval(() => {
-  let e = document.createElement("div");
-  e.innerHTML = ["💖","🧸","✨"][Math.floor(Math.random()*3)];
-  e.style.position = "absolute";
-  e.style.left = Math.random() * innerWidth + "px";
-  e.style.top = innerHeight + "px";
-  e.style.transition = "4s linear";
-  document.body.appendChild(e);
+// Draw heart shape
+function drawHeart(x, y, size, opacity) {
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = "pink";
 
-  setTimeout(() => {
-    e.style.top = "-50px";
-    e.style.opacity = 0;
-  }, 50);
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.bezierCurveTo(x - size/2, y - size/2, x - size, y + size/3, x, y + size);
+  ctx.bezierCurveTo(x + size, y + size/3, x + size/2, y - size/2, x, y);
+  ctx.fill();
 
-  setTimeout(() => e.remove(), 4000);
-}, 800);
-
-/* 📸 Photos */
-const photos = [
-  "IMG_3757.jpeg",
-  "405F6892-62A1-4944-9219-DB8CEBCB8724.jpeg",
-  "26F2BFCD-F847-4B58-9819-9227116A9932.jpeg",
-  "22D15150-F119-4DA2-98D5-A544132EC335.jpeg"
-];
-
-let photoIndex = 0;
-
-function showPhoto() {
-  let img = document.getElementById("photo");
-  img.style.display = "block";
-  img.src = photos[photoIndex];
-  photoIndex = (photoIndex + 1) % photos.length;
+  ctx.globalAlpha = 1;
 }
 
-/* 💬 Chat */
-const messages = [
-  "Hey Aditi… 🧸🤍",
-  "I know I messed up a little…",
-  "Maybe I wasn’t there like I should be…",
-  "But it was never because you don’t matter…",
-  "You matter more than you think 🤍"
-];
+// Animation loop
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-function showChat() {
-  let chat = document.getElementById("chat");
-  chat.style.display = "block";
+  hearts.forEach((heart, index) => {
+    heart.y -= heart.speed;
 
-  let i = 0;
-  let interval = setInterval(() => {
-    if (i < messages.length) {
-      let div = document.createElement("div");
-      div.className = "msg";
-      div.innerHTML = messages[i];
-      chat.appendChild(div);
-      i++;
-    } else clearInterval(interval);
-  }, 1500);
+    drawHeart(heart.x, heart.y, heart.size, heart.opacity);
+
+    if (heart.y < -20) {
+      hearts[index] = createHeart();
+      hearts[index].y = canvas.height;
+    }
+  });
+
+  requestAnimationFrame(animate);
 }
 
-/* 💌 Letter */
-function showLetter() {
-  let l = document.getElementById("letter");
-  l.style.display = "block";
-  l.innerHTML = `
-  You don’t have to be strong all the time… 🤍<br><br>
-  I’m right here, always.<br><br>
-  — Yours 🧸❤️
-  `;
-  document.getElementById("hugBtn").style.display = "inline-block";
-}
-
-/* 🤗 Hug + HEARTBEAT */
-function hug() {
-  let text = document.getElementById("text");
-
-  text.innerHTML = "Come here 🥺🤍 *hug* 💓";
-  text.classList.add("heartbeat");
-
-  setTimeout(() => {
-    text.classList.remove("heartbeat");
-
-    // 💔➡️💖 FINAL EMOTIONAL LINE
-    text.innerHTML = "Don’t stay sad… I’m always here for you 🤍🧸";
-  }, 3000);
-}
-
-/* 🎮 Game */
-function startGame() {
-  for (let i = 0; i < 5; i++) {
-    let btn = document.createElement("button");
-    btn.innerHTML = "😄";
-    btn.className = "gameBtn";
-
-    btn.style.top = Math.random() * innerHeight + "px";
-    btn.style.left = Math.random() * innerWidth + "px";
-
-    btn.onmouseover = () => {
-      btn.style.top = Math.random() * innerHeight + "px";
-      btn.style.left = Math.random() * innerWidth + "px";
-    };
-
-    btn.onclick = () => {
-      document.getElementById("text").innerHTML =
-        "There’s that smile I love 🧸💖";
-      btn.remove();
-    };
-
-    document.body.appendChild(btn);
-  }
-}
-
-/* ▶️ START */
-function start() {
-  document.querySelector("button").remove();
-
-  let music = document.getElementById("music");
-  music.volume = 0.4;
-
-  setTimeout(() => {
-    music.play().catch(() => {
-      document.body.addEventListener("click", () => music.play(), { once: true });
-    });
-  }, 300);
-
-  startHearts();
-  showChat();
-
-  setInterval(showPhoto, 3000);
-
-  setTimeout(showLetter, 4000);
-  setTimeout(startGame, 6000);
-}
-
+animate();
 </script>
+
 </body>
 </html>
